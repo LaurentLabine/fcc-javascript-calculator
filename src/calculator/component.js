@@ -52,18 +52,13 @@ class Calculator extends Component {
     }
 
     handleInput(e) {
-
       let input = e.target.id
-
-
-      console.log(inputs[input])
 
       switch(input)
       {
         case "equals":
           // console.log("Expression : " + this.state.data.join("") + this.state.x)
           let str = this.filterResult(this.state.data.concat(this.state.x)).join("").replace(/,/g, '')
-          console.log(str)
           let res = eval(str) //this.computeResult()//
           let arr = [res]
           this.setState({
@@ -91,7 +86,6 @@ class Calculator extends Component {
             if(inputs[input]){//Digit
               this.handleDigit(input);
             } else {//Operator
-              //console.log("HEEEERE")
               this.handleOperator(operators[input]);
             }
             break;
@@ -102,60 +96,37 @@ class Calculator extends Component {
 // should be the last operator entered (excluding the negative (-) sign.
 
 filterResult(inpArr){ 
-  // let inpArr = arr
   let tmpOprArr = []
-  let simOprArr = []
   let resArr = []
-
-  console.log(inpArr)
 
   for(let i = 0; i< inpArr.length; i++)
   {
     if(inpArr[i] === "")
-    continue
+      continue
 
-    console.log("INPUT : " + " is :" + inpArr[i])
-    // console.log("Is " + inpArr[i] + " a digit? :" + !isNaN(inpArr[i]))
     if(isNaN(inpArr[i]))//if it's a symbol, filter to a temporary array
     {
       tmpOprArr.push(inpArr[i])
-      console.log("tmpPorArr updated to : " + tmpOprArr)
     } else //If a number is found, filter the opr array to remove the unwanted operators
     {
-      console.log(inpArr[i] + " is a number")
-      console.log("Operator kept : " + tmpOprArr.slice(-1))
-
-      console.log("length : " + tmpOprArr.length)
-      console.log("value : " + tmpOprArr.slice(-1))
     if(tmpOprArr.length > 1 && tmpOprArr.slice(-1) == "-")
       {//last operator is a negative
       resArr.push(tmpOprArr.slice(-2)) 
-      console.log("passed here 1")
       tmpOprArr = []
       }
     else if (tmpOprArr.length > 1)
     {
       resArr.push(tmpOprArr.slice(-1))
-      console.log("passed here 2" + tmpOprArr.slice(-1))
       tmpOprArr = []
     }
     else
     {
       resArr.push(tmpOprArr)
       tmpOprArr = []
-      console.log("passed here 3")
     }
-
-    resArr.push(inpArr[i])
-
-    
-
-      console.log("res array: " + resArr)
+      resArr.push(inpArr[i])
     }
-
-    console.log("ResArray : " + resArr)
   }
-
   return resArr
 }
 
@@ -165,9 +136,7 @@ setTest(){
         data : ["5","*","-","+","5"]
       })
     }
-
     handleDigit(digit){
-      
       if(this.state.display === "0"){
         this.setState({
           x : inputs[digit],
@@ -194,15 +163,6 @@ setTest(){
         display : this.state.display + operator,
         x:""
       })
-
-      //console.log("After : " + tmpArr)
-    }
-
-    componentDidUpdate(){
-     // console.log("input : " + this.state.x)
-      //console.log("data : " + this.state.data)
-      //console.log("display : " + this.state.display)
-      //console.log("FLOAT : " + parseFloat("*"))
     }
     
     render() {
@@ -223,8 +183,6 @@ setTest(){
         <Input id="divide" operation="/" handler={this.handleInput}/>
         <Input id="decimal" operation="." handler={this.handleInput}/>
         <Input id="clear" operation="CL" handler={this.handleInput}/>
-
-        <Input id="TEST" operation="TS" handler={this.setTest}/>
          <br />
         </div>
       )
